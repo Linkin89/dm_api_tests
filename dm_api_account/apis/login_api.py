@@ -7,5 +7,12 @@ class LoginApi:
         self.headers = headers
 
     def post_v1_account_login(self, json_data):
+        """
+        User authorization
+
+        Args:
+            json_data (json)
+        """
+
         response = requests.post(url=f"{self.host}/v1/account/login", json=json_data)
         return response

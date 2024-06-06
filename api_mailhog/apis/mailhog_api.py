@@ -6,16 +6,14 @@ class MailhogApi:
         self.host = host
         self.headers = headers
 
-    def get_api_v2_messages(self):
-        """Get Users emails"""
-
-        limit = 5
+    def get_api_v2_messages(self, limit=50):
+        """
+        Get Users emails
+        """
 
         params = {
             "limit": limit,
         }
 
-        response = requests.get(
-            url=f"{self.host}/api/v2/messages", params=params, verify=False
-        )
+        response = requests.get(url=f"{self.host}/api/v2/messages", params=params, verify=False)
         return response
