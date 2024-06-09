@@ -2,18 +2,19 @@ from api_mailhog.apis.mailhog_api import MailhogApi
 from dm_api_account.apis.account_api import AccountApi
 from dm_api_account.apis.login_api import LoginApi
 from json import loads
-
+from mimesis import Person
 
 def test_post_v1_account_login():
     """
     Авторизация пользователя с валидными и не валидными логопасс
     """
     # Регистрация пользователя
+    fake = Person()
     account_api = AccountApi(host="http://5.63.153.31:5051")
     login_api = LoginApi(host="http://5.63.153.31:5051")
     mailhog_api = MailhogApi(host="http://5.63.153.31:5025")
 
-    login = "super_pupsik11"
+    login = fake.username()
     email = f"{login}@mailforspam.com"
     password = "kukusik"
 
