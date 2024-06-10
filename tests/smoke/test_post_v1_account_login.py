@@ -25,15 +25,11 @@ def test_post_v1_account_login():
     }
 
     response = account_api.post_v1_account(json_data)
-
-    print(response.status_code)
     assert (response.status_code == 201), f"Пользователь с таким именем уже существует {response.json()}"
 
     # Получить письма из почтового ящика
 
     response = mailhog_api.get_api_v2_messages()
-
-    print(response.status_code)
     assert response.status_code == 200, "Письма не были получены"
 
     # Получение авторизационного токена
@@ -43,8 +39,6 @@ def test_post_v1_account_login():
 
     # Активация пользователя
     response = account_api.put_v1_account_token(user_token=user_token)
-
-    print(response.status_code)
     assert response.status_code == 200, "Пользователь не был активирован"
 
     # Авторизация пользователя с НЕвалидными логопасс
@@ -55,8 +49,6 @@ def test_post_v1_account_login():
     }
 
     response = login_api.post_v1_account_login(json_data=json_data)
-
-    print(response.status_code)
     assert response.status_code == 400, "Пользователь смог авторизоваться с НЕВАЛИДНЫМИ данными"
 
     # Авторизация пользователя с валидными логопасс
@@ -67,8 +59,6 @@ def test_post_v1_account_login():
     }
 
     response = login_api.post_v1_account_login(json_data=json_data)
-
-    print(response.status_code)
     assert response.status_code == 200, "Пользователь не смог авторизоваться"
 
 

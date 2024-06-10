@@ -25,25 +25,18 @@ def test_put_v1_account_email():
         "password": password,
     }
     response = account_api.post_v1_account(json_data)
-
-    print(response.status_code)
     assert response.status_code == 201, f"Пользователь не создан {response.json()}"
 
     # Получить письма из почтового ящика
     response = mailhog_api.get_api_v2_messages()
-
-    print(response.status_code)
     assert response.status_code == 200, "Письма не были получены"
 
     # Получение авторизационного токена
     user_token = get_activation_token_by_login(login, response)
-
     assert user_token is not None, f"Токен для пользвателя {login} не найден"
 
     # Активация пользователя
     response = account_api.put_v1_account_token(user_token)
-
-    print(response.status_code)
     assert response.status_code == 200, "Пользователь не был активирован"
 
     # Авторизация пользователя
@@ -54,18 +47,14 @@ def test_put_v1_account_email():
     }
 
     response = login_api.post_v1_account_login(json_authorizatin_data)
-
-    print(response.status_code)
     assert response.status_code == 200, "Пользователь не смог авторизоваться"
 
     # Изменение email
     change_email = account_api.put_v1_account_email(json_data)
-
     assert change_email.status_code == 200, "Не удалось изменить email"
 
     # Получение писем из почты
     response = mailhog_api.get_api_v2_messages()
-
     assert response.status_code == 200, "Письма не были получены"
 
     # Получение токена для подтверждения нового email
@@ -74,14 +63,10 @@ def test_put_v1_account_email():
 
     # Активация после смены email
     response = account_api.put_v1_account_token(user_token)
-
-    print(response.status_code)
     assert response.status_code == 200, "Пользователь не активирован"
 
     # Авторизация после изменения email
     response_after_change_email = login_api.post_v1_account_login(json_data)
-
-    print(response_after_change_email.status_code)
     assert response_after_change_email.status_code == 200, "Авторизоваться не удалось"
 
 
