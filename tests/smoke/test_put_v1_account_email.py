@@ -88,21 +88,17 @@ def test_put_v1_account_email():
 # Получение токена для подтверждения нового email
 def get_token_for_activate_new_email(email, user_data):
     for item in user_data:
-        all_new_emais = item["Raw"]["To"]
-        for new_email in all_new_emais:
-            if new_email == email:
-                user_token = loads(item["Content"]["Body"])[
-                    "ConfirmationLinkUrl"
-                ].split("/")[-1]
-                return user_token
+        if email in item["Raw"]["To"]:
+            user_token = loads(item['Content']['Body'])['ConfirmationLinkUrl'].split("/")[-1]
+            return user_token
 
 
+# Получение токена для подтверждения email
 def get_activation_token_by_login(login, response):
     user_token = None
     for item in response.json()["items"]:
         user_data = loads(item["Content"]["Body"])
         user_login = user_data["Login"]
-
         if user_login == login:
             user_token = user_data["ConfirmationLinkUrl"].split("/")[-1]
     return user_token
