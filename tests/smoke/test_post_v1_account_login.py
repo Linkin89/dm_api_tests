@@ -11,8 +11,8 @@ def test_post_v1_account_login():
     Авторизация пользователя с валидными и не валидными логопасс
     """
     # Регистрация пользователя
-    mailhog_configuration = MailhogConfiguration(host="http://5.63.153.31:5025", disable_log=True)
     dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=True)
+    mailhog_configuration = MailhogConfiguration(host="http://5.63.153.31:5025", disable_log=True)
 
     account_api = AccountApi(configuration=dm_api_configuration)
     login_api = LoginApi(configuration=dm_api_configuration)
