@@ -39,7 +39,7 @@ def test_put_v1_account_token():
     assert response.status_code == 200, "Письма не были получены"
 
     # Получение авторизационного токена
-    user_token = account_helper.get_activation_token_by_login(login, response)
+    user_token = account_helper.get_activation_token_by_login(login)
     assert user_token is not None, f"Токен для пользователя {login} не найден"
 
     # Попытка авторизации пользователя ДО АКТИВАЦИИ
