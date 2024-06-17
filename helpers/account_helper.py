@@ -7,9 +7,6 @@ from retrying import retry
 def retry_if_result_none(result):
     return result is None
 
-def retry_if_AssertionError(result):
-    return isinstance(result, AssertionError)
-
 class AccountHelper:
     def __init__(self, dm_account_api: DMApiAccount, mailhog_api: MailHogApi):
         """
@@ -19,7 +16,6 @@ class AccountHelper:
         self.mailhog_api = mailhog_api
 
 
-    @retry(stop_max_attempt_number=5, retry_on_result=retry_if_AssertionError, wait_fixed=1000)
     def register_mew_user(self, login: str, password: str, email: str):
         """
         Registration new user
@@ -45,7 +41,6 @@ class AccountHelper:
         return response
 
 
-    @retry(stop_max_attempt_number=5, retry_on_result=retry_if_AssertionError, wait_fixed=1000)
     def user_login(self, login: str, password: str, remember_me: bool = True):
         """
         Login user
@@ -63,7 +58,6 @@ class AccountHelper:
         return response
     
 
-    @retry(stop_max_attempt_number=5, retry_on_result=retry_if_AssertionError, wait_fixed=1000)
     def change_email(self, login: str, password: str, email: str):
         """
         Change email
