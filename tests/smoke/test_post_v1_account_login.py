@@ -35,13 +35,6 @@ def test_post_v1_account_login():
     
     # Регистрация пользователя
     account_helper.register_mew_user(login=login, password=password, email=email)
-
-    # # Авторизация пользователя с НЕвалидными логопасс
-    # login_inv = login+"inv",
-    # password_inv = password+"inv",
-    # rememberMe = False
-
-    # account_helper.user_login(login=login_inv, password=password_inv)
     
     # Авторизация пользователя с валидными логопасс
     account_helper.user_login(login=login, password=password)
