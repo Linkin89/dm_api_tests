@@ -16,7 +16,7 @@ class AccountHelper:
         self.mailhog_api = mailhog_api
 
 
-    def register_mew_user(self, login: str, password: str, email: str):
+    def register_new_user(self, login: str, password: str, email: str):
         """
         Registration new user
         """
@@ -56,7 +56,7 @@ class AccountHelper:
         response = self.dm_account_api.login_api.post_v1_account_login(json_data=json_data)
         assert response.status_code == 200, "Пользователь не смог авторизоваться"
         return response
-    
+      
 
     def change_email(self, login: str, password: str, email: str):
         """
