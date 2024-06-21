@@ -57,6 +57,20 @@ class AccountHelper:
         assert response.status_code == 200, "Пользователь не смог авторизоваться"
         return response
       
+      
+    def user_logout(self, login: str, password: str):
+        """
+        Logout user
+        """
+    
+        
+        token = self.get_authorization_token(login, password)
+        
+        # Выход из аккаунта
+        response = self.dm_account_api.login_api.delete_v1_account_login(token)
+        assert response.status_code == 204, "Не удалось выйти из аккаунта"
+        return response
+
 
     def change_email(self, login: str, password: str, email: str):
         """
@@ -83,10 +97,58 @@ class AccountHelper:
 
         # Активация после смены email
         response = self.dm_account_api.account_api.put_v1_account_token(user_token=token)
-        assert response.status_code == 200, "Пользователь не активирован"
-        
+        assert response.status_code == 200, "Пользователь не активирован"  
         return response
-
+    
+    
+    def reset_password(self, login: str, email: str):
+        """
+        Reset registered user password
+        """
+        json_data = {
+        "login": login,
+        "email": email,
+        }
+        
+        response = self.dm_account_api.account_api.post_v1_account_password(json_data)
+        assert response.status_code == 200, f"Не удалось сбросить пароль для пользователя {login}"
+        return response
+    
+    def change_password(self, login: str, password: str, new_password: str):
+        """
+        Change registered user password
+        """
+        json_data = {
+        "login": login,
+        "token": self.get_token_for_reset_password(login),
+        "oldPassword": password,
+        "newPassword": new_password,
+        }
+        
+        headers = {
+            "X-Dm-Auth-Token": self.get_authorization_token(login, password)
+        }
+        
+        # Изменение пароля
+        response = self.dm_account_api.account_api.put_v1_account_password(json_data=json_data, headers=headers)
+        assert response.status_code == 200, "Не удалось изменить пароль"
+        return response
+        
+    
+    def auth_client(self, login: str, password: str):
+        response = self.dm_account_api.login_api.post_v1_account_login(
+            json_data={
+            "login": login, 
+            "password": password
+            })
+        
+        token = {
+            "x-dm-auth-token": response.headers['X-Dm-Auth-Token']
+        }
+        
+        self.dm_account_api.account_api.set_headers(token)
+        self.dm_account_api.login_api.set_headers(token)
+        return response
 
     # Функция Получение токена для подтверждения нового email
     @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
@@ -101,15 +163,35 @@ class AccountHelper:
         return None
             
 
-
     # Функция Получение токена для подтверждения email
     @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_activation_token_by_login(self, login: str):
         response = self.mailhog_api.mailhog_api.get_api_v2_messages()
-        user_token = None
         for item in response.json()["items"]:
             user_data = loads(item["Content"]["Body"])
             user_login = user_data["Login"]
-            if user_login == login:
+            if user_login == login and user_data["ConfirmationLinkUrl"]:
                 user_token = user_data["ConfirmationLinkUrl"].split("/")[-1]
-        return user_token
+                return user_token
+            return None
+            
+    
+    # Функция Получение авторизационного токена
+    @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
+    def get_authorization_token(self, login: str, password: str):
+        response = self.user_login(login=login, password=password)
+        token = response.headers["X-Dm-Auth-Token"]
+        return token
+
+    
+    # Функция Получение токена для сброса пароля
+    @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
+    def get_token_for_reset_password(self, login: str):
+        response = self.mailhog_api.mailhog_api.get_api_v2_messages()
+        for item in response.json()["items"]:
+            user_data = loads(item["Content"]["Body"])
+            user_login = user_data["Login"]
+            if user_login == login and user_data["ConfirmationLinkUri"]:
+                token = user_data["ConfirmationLinkUri"].split("/")[-1]
+                return token
+            return None

@@ -34,7 +34,7 @@ def test_post_v1_account_login():
     password = "kukusik"
     
     # Регистрация пользователя
-    account_helper.register_mew_user(login=login, password=password, email=email)
+    account_helper.register_new_user(login=login, password=password, email=email)
     
     # Авторизация пользователя с валидными логопасс
     account_helper.user_login(login=login, password=password)
