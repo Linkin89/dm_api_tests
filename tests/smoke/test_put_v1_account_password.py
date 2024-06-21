@@ -1,4 +1,3 @@
-from conftest import auth_account_helper
 from helpers.account_helper import AccountHelper
 
 

@@ -3,7 +3,6 @@ from services.dm_api_account import DMApiAccount
 from services.api_mailhog import MailHogApi
 from restclient.configuration import Configuration as MailhogConfiguration
 from restclient.configuration import Configuration as DmApiConfiguration
-from json import loads
 from mimesis import Person
 
 
