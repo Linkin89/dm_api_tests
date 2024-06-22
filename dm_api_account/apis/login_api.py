@@ -14,7 +14,7 @@ class LoginApi(RestClient):
         return response
 
     
-    def delete_v1_account_login(self, token=None):
+    def delete_v1_account_login(self, **kwargs):
         """
         Logout as current user
 
@@ -23,22 +23,22 @@ class LoginApi(RestClient):
         """
         
         headers = {
-            "X-Dm-Auth-Token": token
+            "X-Dm-Auth-Token": kwargs.get("token")
         }
         
         response = self.delete(path=f"/v1/account/login", headers=headers)
         return response
     
-    def delete_v1_account_login_all(self, token=None):
+    def delete_v1_account_login_all(self, **kwargs):
         """
-        Logout as current user
+        Logout from every devices
 
         Args:
             json_data (json)
         """
         
         headers = {
-            "X-Dm-Auth-Token": token
+            "X-Dm-Auth-Token": kwargs.get("token")
         }
         
         response = self.delete(path=f"/v1/account/login/all", headers=headers)

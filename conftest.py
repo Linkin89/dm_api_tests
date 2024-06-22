@@ -38,16 +38,22 @@ def account_helper(account_api, mailhog_api):
   return account_helper
 
 
-@fixture(scope="session")
-def auth_account_helper(mailhog_api):
+@fixture(scope="function")
+def auth_account_helper(mailhog_api, prepare_user):
+  login = prepare_user.login
+  password = prepare_user.password
+  email = prepare_user.email
+  
   dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=True)
   account = DMApiAccount(configuration=dm_api_configuration)
   account_helper = AccountHelper(dm_account_api=account, mailhog_api=mailhog_api)
-  account_helper.auth_client(login="expectations_2053", password="kukusik")
+  
+  account_helper.register_new_user(login=login, password=password, email=email)
+  account_helper.auth_client(login=login, password=password)
   return account_helper
 
 
-@fixture
+@fixture(scope="function")
 def prepare_user():
   fake = Person()
   login = f"{fake.username()}"

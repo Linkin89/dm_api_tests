@@ -13,11 +13,8 @@ def test_put_v1_account_password(account_helper: AccountHelper, prepare_user):
     # Авторизация пользователя
     account_helper.user_login(login=login, password=password)
     
-    # Сброс пароля пользователя
-    account_helper.reset_password(login=login, email=email)
-    
     # Изменение пароля пользователя
-    account_helper.change_password(login=login, password=password, new_password=new_password)
+    account_helper.change_password(login=login, password=password, new_password=new_password, email=email)
     
     # Авторизация после смены пароля
     account_helper.user_login(login=login, password=new_password)

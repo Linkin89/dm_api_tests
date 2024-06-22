@@ -7,6 +7,7 @@ from retrying import retry
 def retry_if_result_none(result):
     return result is None
 
+
 class AccountHelper:
     def __init__(self, dm_account_api: DMApiAccount, mailhog_api: MailHogApi):
         """
@@ -60,14 +61,26 @@ class AccountHelper:
       
     def user_logout(self, login: str, password: str):
         """
-        Logout user
+        Logout user from single device
         """
     
-        
         token = self.get_authorization_token(login, password)
         
         # Выход из аккаунта
-        response = self.dm_account_api.login_api.delete_v1_account_login(token)
+        response = self.dm_account_api.login_api.delete_v1_account_login(token=token)
+        assert response.status_code == 204, "Не удалось выйти из аккаунта"
+        return response
+
+
+    def user_logout_all(self, login: str, password: str):
+        """
+        Logout user from all devices
+        """
+    
+        token = self.get_authorization_token(login, password)
+        
+        # Выход из всех аккаунтов
+        response = self.dm_account_api.login_api.delete_v1_account_login_all(token=token)
         assert response.status_code == 204, "Не удалось выйти из аккаунта"
         return response
 
@@ -101,23 +114,20 @@ class AccountHelper:
         return response
     
     
-    def reset_password(self, login: str, email: str):
+    def change_password(self, login: str, password: str, new_password: str, email: str):
         """
-        Reset registered user password
+        Reset and change registered user password
         """
+        
         json_data = {
         "login": login,
         "email": email,
         }
         
+        # Cброс пароля
         response = self.dm_account_api.account_api.post_v1_account_password(json_data)
         assert response.status_code == 200, f"Не удалось сбросить пароль для пользователя {login}"
-        return response
-    
-    def change_password(self, login: str, password: str, new_password: str):
-        """
-        Change registered user password
-        """
+        
         json_data = {
         "login": login,
         "token": self.get_token_for_reset_password(login),
@@ -136,16 +146,13 @@ class AccountHelper:
         
     
     def auth_client(self, login: str, password: str):
-        response = self.dm_account_api.login_api.post_v1_account_login(
-            json_data={
-            "login": login, 
-            "password": password
-            })
+        response = self.user_login(login=login, password=password)
         
         token = {
             "x-dm-auth-token": response.headers['X-Dm-Auth-Token']
         }
         
+        # Установка хедера с токеном для авторизованного пользователя
         self.dm_account_api.account_api.set_headers(token)
         self.dm_account_api.login_api.set_headers(token)
         return response
@@ -170,7 +177,7 @@ class AccountHelper:
         for item in response.json()["items"]:
             user_data = loads(item["Content"]["Body"])
             user_login = user_data["Login"]
-            if user_login == login and user_data["ConfirmationLinkUrl"]:
+            if user_login == login and user_data.get("ConfirmationLinkUrl"):
                 user_token = user_data["ConfirmationLinkUrl"].split("/")[-1]
                 return user_token
             return None
@@ -191,7 +198,7 @@ class AccountHelper:
         for item in response.json()["items"]:
             user_data = loads(item["Content"]["Body"])
             user_login = user_data["Login"]
-            if user_login == login and user_data["ConfirmationLinkUri"]:
+            if user_login == login and user_data.get("ConfirmationLinkUri"):
                 token = user_data["ConfirmationLinkUri"].split("/")[-1]
                 return token
             return None
