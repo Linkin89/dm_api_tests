@@ -1,4 +1,6 @@
 from json import loads
+import re
+import time
 from services.dm_api_account import DMApiAccount
 from services.api_mailhog import MailHogApi
 from retrying import retry
@@ -31,9 +33,14 @@ class AccountHelper:
         # Регистрация пользователя
         response = self.dm_account_api.account_api.post_v1_account(json_data=json_data)
         assert response.status_code == 201, f"Пользователь не создан {response.json()}"
+        
+        
                
         # Получение авторизационного токена из письма
+        start_time = time.time()
         token = self.get_activation_token_by_login(login=login)
+        end_time = time.time()
+        assert end_time - start_time < 3, f"Время ожидания составило {end_time - start_time} секунд" 
         assert token is not None, f"Токен для пользвателя {login} не найден"
 
         # Активация пользователя 
@@ -55,6 +62,7 @@ class AccountHelper:
         
         # Авторизация пользователя
         response = self.dm_account_api.login_api.post_v1_account_login(json_data=json_data)
+        assert response.headers["x-dm-auth-token"], f"Токен для пользвателя {login} не найден"
         assert response.status_code == 200, "Пользователь не смог авторизоваться"
         return response
       
