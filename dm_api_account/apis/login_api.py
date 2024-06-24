@@ -22,12 +22,9 @@ class LoginApi(RestClient):
             json_data (json)
         """
         
-        headers = {
-            "X-Dm-Auth-Token": kwargs.get("token")
-        }
-        
-        response = self.delete(path=f"/v1/account/login", headers=headers)
+        response = self.delete(path=f"/v1/account/login", headers=kwargs.get("headers"))
         return response
+    
     
     def delete_v1_account_login_all(self, **kwargs):
         """
@@ -37,10 +34,6 @@ class LoginApi(RestClient):
             json_data (json)
         """
         
-        headers = {
-            "X-Dm-Auth-Token": kwargs.get("token")
-        }
-        
-        response = self.delete(path=f"/v1/account/login/all", headers=headers)
+        response = self.delete(path=f"/v1/account/login/all", headers=kwargs.get("headers"))
         return response
     

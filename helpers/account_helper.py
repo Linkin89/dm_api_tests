@@ -59,28 +59,32 @@ class AccountHelper:
         return response
       
       
-    def user_logout(self, login: str, password: str):
+    def user_logout(self, token: str):
         """
         Logout user from single device
         """
     
-        token = self.get_authorization_token(login, password)
+        headers = {
+            "X-Dm-Auth-Token": token
+        }
         
         # Выход из аккаунта
-        response = self.dm_account_api.login_api.delete_v1_account_login(token=token)
+        response = self.dm_account_api.login_api.delete_v1_account_login(headers=headers)
         assert response.status_code == 204, "Не удалось выйти из аккаунта"
         return response
 
 
-    def user_logout_all(self, login: str, password: str):
+    def user_logout_all(self, token: str):
         """
         Logout user from all devices
         """
     
-        token = self.get_authorization_token(login, password)
+        headers = {
+            "X-Dm-Auth-Token": token
+        }
         
         # Выход из всех аккаунтов
-        response = self.dm_account_api.login_api.delete_v1_account_login_all(token=token)
+        response = self.dm_account_api.login_api.delete_v1_account_login_all(headers=headers)
         assert response.status_code == 204, "Не удалось выйти из аккаунта"
         return response
 
