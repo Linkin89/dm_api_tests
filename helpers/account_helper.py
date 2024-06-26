@@ -64,8 +64,6 @@ class AccountHelper:
         
         # Авторизация пользователя
         response = self.dm_account_api.login_api.post_v1_account_login(login_credentials=login_credentials, validate_response=validate_response)
-        # assert response.headers["x-dm-auth-token"], f"Токен для пользвателя {login} не найден"
-        # assert response.status_code == 200, "Пользователь не смог авторизоваться"
         return response
       
       
@@ -119,7 +117,6 @@ class AccountHelper:
 
         # Получение токена для подтверждения нового email
         token = self.get_token_for_activate_new_email(email=email)
-        # assert token is not None, f"Токен для пользвателя {login} не найден"
 
         # Активация после смены email
         response = self.dm_account_api.account_api.put_v1_account_token(user_token=token)
@@ -137,8 +134,7 @@ class AccountHelper:
         )
         
         # Cброс пароля
-        response = self.dm_account_api.account_api.post_v1_account_password(reset_password=reset_password)
-        # assert response.status_code == 200, f"Не удалось сбросить пароль для пользователя {login}"
+        response = self.dm_account_api.account_api.post_v1_account_password(reset_password=reset_password)        
         
         change_password = ChangePassword(
             login=login,
@@ -153,7 +149,6 @@ class AccountHelper:
         
         # Изменение пароля
         response = self.dm_account_api.account_api.put_v1_account_password(change_password=change_password, headers=headers)
-        # assert response.status_code == 200, "Не удалось изменить пароль"
         return response
         
     

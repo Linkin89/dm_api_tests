@@ -74,4 +74,6 @@ class AccountApi(RestClient):
         Change registered user password
         """
         response = self.put(path=f"/v1/account/password", json=change_password.model_dump(exclude_none=True, by_alias=True), headers=headers)
+        # if validate_response:
+        #     return UserEnvelope(**response.json())
         return response
