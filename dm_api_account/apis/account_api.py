@@ -2,6 +2,7 @@ from dm_api_account.models.change_email import ChangeEmail
 from dm_api_account.models.change_password import ChangePassword
 from dm_api_account.models.registration import Registration
 from dm_api_account.models.reset_password import ResetPassword
+from dm_api_account.models.user_details_envelope import UserDetailsEnvelope
 from dm_api_account.models.user_envelope import UserEnvelope
 from restclient.client import RestClient
 
@@ -55,6 +56,8 @@ class AccountApi(RestClient):
             json_data (json)
         """
         response = self.get(path=f"/v1/account", **kwargs)
+        if response.status_code == 200:
+            return UserDetailsEnvelope(**response.json())
         return response
     
     
@@ -74,6 +77,6 @@ class AccountApi(RestClient):
         Change registered user password
         """
         response = self.put(path=f"/v1/account/password", json=change_password.model_dump(exclude_none=True, by_alias=True), headers=headers)
-        # if validate_response:
-        #     return UserEnvelope(**response.json())
+        if validate_response:
+            return UserEnvelope(**response.json())
         return response
