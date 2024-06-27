@@ -56,7 +56,7 @@ def auth_account_helper(mailhog_api, prepare_user):
 @fixture(scope="function")
 def prepare_user():
   fake = Person()
-  login = f"{fake.username()}"
+  login = f"vadimko_{fake.username()}"
   email = f"{login}@mailforspam.com"
   password = "kukusik"
   new_password = f"new_{password}"
