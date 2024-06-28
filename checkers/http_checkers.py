@@ -4,10 +4,8 @@ from requests.exceptions import HTTPError
 
 
 @contextmanager
-def check_status_code_http(
-    expected_status_code: requests.codes = requests.codes.ok,
-    expected_message: str = "User must be authenticated",
-):
+def check_status_code_http(expected_status_code: requests.codes = requests.codes.ok,
+    expected_message: str = "User must be authenticated"):
     try:
         yield
         if expected_status_code != requests.codes.ok:

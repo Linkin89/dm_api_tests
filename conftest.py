@@ -27,7 +27,7 @@ def mailhog_api():
   
 @fixture(scope="session")
 def account_api():
-  dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=False)
+  dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=True)
   account = DMApiAccount(configuration=dm_api_configuration)
   return account  
 

@@ -1,3 +1,4 @@
+from checkers.http_checkers import check_status_code_http
 from datetime import datetime
 from helpers.account_helper import AccountHelper
 from hamcrest import (
@@ -10,17 +11,21 @@ from hamcrest import (
     has_properties,
 )
 
-
+# @pytest.mark.parametrize("login", "password", "email", "status_code", "message", [
+#     ("vadimko_username1", "kuku", "vadimko_username@mailforspam.com", 400, "Validation failed"), 
+#     ("vadimko_username2", "kukusik", "vadimko_usernamemailforspam.com", 400, "Validation failed"), 
+#     ("v", "kukusik", "vadimko_username@mailforspam.com", 400, "Validation failed")])
 def test_post_v1_account(account_helper: AccountHelper, prepare_user):
     """
     Регистрация нового пользователя
     """
-
-    login = prepare_user.login
+    
+    login = "v"
     password = prepare_user.password
     email = prepare_user.email
 
     # Регистрация пользователя
+    # with check_status_code_http(400, "Validation failed"):
     account_helper.register_new_user(login=login, password=password, email=email)
 
     # Авторизация пользователя
