@@ -31,11 +31,7 @@ def test_post_v1_account(account_helper: AccountHelper, prepare_user):
         all_of(
             has_property("resource", has_property("login", starts_with("vadimko"))),
             has_property("resource", has_property("registration", instance_of(datetime))),
-            has_property(
-                "resource",
-                has_properties(
-                    {
-                        "rating": has_properties(
+            has_property("resource", has_properties({"rating": has_properties(
                             {
                                 "enabled": equal_to(True),
                                 "quality": equal_to(0),
