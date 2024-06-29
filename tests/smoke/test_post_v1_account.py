@@ -1,5 +1,6 @@
 from checkers.http_checkers import check_status_code_http
 from datetime import datetime
+import pytest
 from helpers.account_helper import AccountHelper
 from hamcrest import (
     assert_that,
@@ -11,23 +12,19 @@ from hamcrest import (
     has_properties,
 )
 
-# @pytest.mark.parametrize("login", "password", "email", "status_code", "message", [
-#     ("vadimko_username1", "kuku", "vadimko_username@mailforspam.com", 400, "Validation failed"), 
-#     ("vadimko_username2", "kukusik", "vadimko_usernamemailforspam.com", 400, "Validation failed"), 
-#     ("v", "kukusik", "vadimko_username@mailforspam.com", 400, "Validation failed")])
+
 def test_post_v1_account(account_helper: AccountHelper, prepare_user):
     """
-    Регистрация нового пользователя
+    Регистрация и авторизация нового пользователя c валидными данными
     """
-    
-    login = "v"
+
+    login = prepare_user.login
     password = prepare_user.password
     email = prepare_user.email
 
     # Регистрация пользователя
-    # with check_status_code_http(400, "Validation failed"):
     account_helper.register_new_user(login=login, password=password, email=email)
-
+    
     # Авторизация пользователя
     response = account_helper.user_login(login=login, password=password, validate_response=True)
 
@@ -48,4 +45,17 @@ def test_post_v1_account(account_helper: AccountHelper, prepare_user):
             ),
         ),
     )
-    # print(response)
+
+
+@pytest.mark.parametrize("login, password, email, status_code, message", [
+    ("vadimko_user1", "kuku", "vadimko_user1@mailforspam.com", 400, "Validation failed"), # Короткий пароль
+    ("vadimko_user2", "kukusik", "vadimko_user2mailforspam.com", 400, "Validation failed"), # Неправильный адрес почты
+    ("v", "kukusik", "vadimko_user3@mailforspam.com", 400, "Validation failed"),]) # Короткий логин
+def test_post_v1_account(account_helper: AccountHelper, login, password, email, status_code, message):
+    """
+    Регистрация нового пользователя с невалидными данными
+    """
+
+    # Регистрация пользователя
+    with check_status_code_http(status_code, message):
+        account_helper.register_new_user(login=login, password=password, email=email)
