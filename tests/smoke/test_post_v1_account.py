@@ -51,7 +51,7 @@ def test_post_v1_account(account_helper: AccountHelper, prepare_user):
     ("vadimko_user1", "kuku", "vadimko_user1@mailforspam.com", 400, "Validation failed"), # Короткий пароль
     ("vadimko_user2", "kukusik", "vadimko_user2mailforspam.com", 400, "Validation failed"), # Неправильный адрес почты
     ("v", "kukusik", "vadimko_user3@mailforspam.com", 400, "Validation failed"),]) # Короткий логин
-def test_post_v1_account(account_helper: AccountHelper, login, password, email, status_code, message):
+def test_post_v1_account_invalid_logopass(account_helper: AccountHelper, login, password, email, status_code, message):
     """
     Регистрация нового пользователя с невалидными данными
     """
