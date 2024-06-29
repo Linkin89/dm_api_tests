@@ -48,7 +48,7 @@ class AccountApi(RestClient):
         return response
 
     
-    def get_v1_account(self, **kwargs):
+    def get_v1_account(self, validate_response=True, **kwargs):
         """
         Get current user
 
@@ -56,7 +56,7 @@ class AccountApi(RestClient):
             json_data (json)
         """
         response = self.get(path=f"/v1/account", **kwargs)
-        if response.status_code == 200:
+        if validate_response:
             return UserDetailsEnvelope(**response.json())
         return response
     
