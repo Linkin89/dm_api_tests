@@ -1,6 +1,7 @@
 from checkers.http_checkers import check_status_code_http
 from datetime import datetime
 import pytest
+from checkers.post_v1_account import PostV1Account
 from helpers.account_helper import AccountHelper
 from hamcrest import (
     assert_that,
@@ -28,23 +29,9 @@ def test_post_v1_account(account_helper: AccountHelper, prepare_user):
     # Авторизация пользователя
     response = account_helper.user_login(login=login, password=password, validate_response=True)
 
-    assert_that(
-        response,
-        all_of(
-            has_property("resource", has_property("login", starts_with("vadimko"))),
-            has_property("resource", has_property("registration", instance_of(datetime))),
-            has_property("resource", has_properties({"rating": has_properties(
-                            {
-                                "enabled": equal_to(True),
-                                "quality": equal_to(0),
-                                "quantity": equal_to(0),
-                            }
-                        )
-                    }
-                ),
-            ),
-        ),
-    )
+    PostV1Account.check_response_values(response)
+
+
 
 
 @pytest.mark.parametrize("login, password, email, status_code, message", [
