@@ -1,1 +1,0 @@
-curl -X POST -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'Content-Length: 101' -H 'Content-Type: application/json' -H 'User-Agent: python-requests/2.32.3' -d '{"login": "vadimko_slots_2070", "password": "kukusik", "email": "vadimko_slots_2070@mailforspam.com"}' http://5.63.153.31:5051/v1/account
