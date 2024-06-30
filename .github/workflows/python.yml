@@ -14,7 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-
         uses: actions/setup-python@v4
         with: 
             python-version: '3.12'
@@ -63,7 +62,7 @@ jobs:
     steps:
       - name: Download allure results
         uses: actions/download-artifact@v3
-      - name: Upload allure results
+      - name: Upload allure report
         uses: actions/upload-pages-artifact@v2
       - name: Deploy to GitHub Pages
         id: deployment
