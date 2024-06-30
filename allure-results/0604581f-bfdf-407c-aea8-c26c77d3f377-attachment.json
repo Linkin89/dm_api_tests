@@ -1,0 +1,15 @@
+{
+    "resource": {
+        "login": "vadimko_discussed_1898",
+        "roles": [
+            "Guest",
+            "Player"
+        ],
+        "rating": {
+            "enabled": true,
+            "quality": 0,
+            "quantity": 0
+        },
+        "registration": "2024-06-30T18:23:54.627677+00:00"
+    }
+}

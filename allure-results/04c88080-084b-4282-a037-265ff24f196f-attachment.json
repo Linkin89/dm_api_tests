@@ -1,0 +1,16 @@
+{
+    "resource": {
+        "login": "vadimko_correctly_1868",
+        "roles": [
+            "Guest",
+            "Player"
+        ],
+        "rating": {
+            "enabled": true,
+            "quality": 0,
+            "quantity": 0
+        },
+        "online": "2024-06-30T13:04:55.246587+00:00",
+        "registration": "2024-06-29T15:40:45.435022+00:00"
+    }
+}

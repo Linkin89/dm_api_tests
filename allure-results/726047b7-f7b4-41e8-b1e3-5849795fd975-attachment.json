@@ -1,0 +1,18 @@
+{
+    "resource": {
+        "login": "vadimko_conversations_1849",
+        "roles": [
+            "Guest",
+            "Player"
+        ],
+        "rating": {
+            "enabled": true,
+            "quality": 0,
+            "quantity": 0
+        },
+        "registration": "2024-06-30T18:23:55.477183+00:00"
+    },
+    "metadata": {
+        "email": "va..9@ma..m"
+    }
+}

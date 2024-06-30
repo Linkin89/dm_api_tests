@@ -1,0 +1,14 @@
+{
+    "resource": {
+        "login": "vadimko_mississippi_1829",
+        "roles": [
+            "Guest",
+            "Player"
+        ],
+        "rating": {
+            "enabled": true,
+            "quality": 0,
+            "quantity": 0
+        }
+    }
+}

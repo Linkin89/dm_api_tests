@@ -1,0 +1,15 @@
+{
+    "resource": {
+        "login": "vadimko_slots_2070",
+        "roles": [
+            "Guest",
+            "Player"
+        ],
+        "rating": {
+            "enabled": true,
+            "quality": 0,
+            "quantity": 0
+        },
+        "registration": "2024-06-30T18:23:54.112833+00:00"
+    }
+}

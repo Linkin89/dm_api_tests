@@ -1,0 +1,14 @@
+{
+    "resource": {
+        "login": "vadimko_conversations_1849",
+        "roles": [
+            "Guest",
+            "Player"
+        ],
+        "rating": {
+            "enabled": true,
+            "quality": 0,
+            "quantity": 0
+        }
+    }
+}

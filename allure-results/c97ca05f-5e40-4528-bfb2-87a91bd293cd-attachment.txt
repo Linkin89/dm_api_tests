@@ -1,0 +1,95 @@
+{
+    "service": "api",
+    "event_id": "503c62dd-e3d1-42e9-8423-58c7ff4b0ef9",
+    "method": "POST",
+    "full_url": "http://5.63.153.31:5051/v1/account",
+    "params": null,
+    "headers": null,
+    "json": {
+        "login": "vadimko_charger_2015",
+        "password": "kukusik",
+        "email": "vadimko_charger_2015@mailforspam.com"
+    },
+    "data": null,
+    "event": "Request"
+}
+curl -X POST -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'Content-Length: 105' -H 'Content-Type: application/json' -H 'User-Agent: python-requests/2.32.3' -d '{"login": "vadimko_charger_2015", "password": "kukusik", "email": "vadimko_charger_2015@mailforspam.com"}' http://5.63.153.31:5051/v1/account
+{
+    "service": "api",
+    "event_id": "503c62dd-e3d1-42e9-8423-58c7ff4b0ef9",
+    "status_code": 201,
+    "headers": "{'Content-Length': '0', 'Date': 'Sun, 30 Jun 2024 18:23:55 GMT', 'Server': 'Kestrel', 'Location': 'http://5.63.153.31:5051/v1/users/vadimko_charger_2015'}",
+    "json": {},
+    "event": "Response"
+}
+{
+    "service": "api",
+    "event_id": "1e65dcbe-626f-49e2-b1cb-547badbe85ea",
+    "method": "PUT",
+    "full_url": "http://5.63.153.31:5051/v1/account/494281e4-b8d9-4c41-8815-f4ff2c52359f",
+    "params": null,
+    "headers": null,
+    "json": null,
+    "data": null,
+    "event": "Request"
+}
+curl -X PUT -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'Content-Length: 0' -H 'User-Agent: python-requests/2.32.3' http://5.63.153.31:5051/v1/account/494281e4-b8d9-4c41-8815-f4ff2c52359f
+{
+    "service": "api",
+    "event_id": "1e65dcbe-626f-49e2-b1cb-547badbe85ea",
+    "status_code": 200,
+    "headers": "{'Content-Type': 'application/json; charset=utf-8', 'Date': 'Sun, 30 Jun 2024 18:23:55 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked'}",
+    "json": {
+        "resource": {
+            "login": "vadimko_charger_2015",
+            "roles": [
+                "Guest",
+                "Player"
+            ],
+            "rating": {
+                "enabled": true,
+                "quality": 0,
+                "quantity": 0
+            }
+        }
+    },
+    "event": "Response"
+}
+{
+    "service": "api",
+    "event_id": "92fc5f2e-b13c-4e2b-bb45-72d056133192",
+    "method": "POST",
+    "full_url": "http://5.63.153.31:5051/v1/account/login",
+    "params": null,
+    "headers": null,
+    "json": {
+        "login": "vadimko_charger_2015",
+        "password": "kukusik",
+        "rememberMe": true
+    },
+    "data": null,
+    "event": "Request"
+}
+curl -X POST -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'Content-Length: 76' -H 'Content-Type: application/json' -H 'User-Agent: python-requests/2.32.3' -d '{"login": "vadimko_charger_2015", "password": "kukusik", "rememberMe": true}' http://5.63.153.31:5051/v1/account/login
+{
+    "service": "api",
+    "event_id": "92fc5f2e-b13c-4e2b-bb45-72d056133192",
+    "status_code": 200,
+    "headers": "{'Content-Type': 'application/json; charset=utf-8', 'Date': 'Sun, 30 Jun 2024 18:23:56 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked', 'X-Dm-Auth-Token': 'IQJh+zgzF5CvYp9ki+WSIM+neygr4jNQwg/Q+LwttYJW7SxwnvcALM5xtVPG1R0Ct7ia/YdROHpE1GC1avM0blCA6okeaHwM/RihVCg65TWfoV8Swngw8qWjNOWeZ+QIOiUJdaVq18E='}",
+    "json": {
+        "resource": {
+            "login": "vadimko_charger_2015",
+            "roles": [
+                "Guest",
+                "Player"
+            ],
+            "rating": {
+                "enabled": true,
+                "quality": 0,
+                "quantity": 0
+            },
+            "registration": "2024-06-30T18:23:56.071156+00:00"
+        }
+    },
+    "event": "Response"
+}

@@ -1,0 +1,37 @@
+{
+    "service": "api",
+    "event_id": "aa72e025-cbe2-4dd9-890a-b572a9ca1067",
+    "method": "POST",
+    "full_url": "http://5.63.153.31:5051/v1/account",
+    "params": null,
+    "headers": null,
+    "json": {
+        "login": "vadimko_user2",
+        "password": "kukusik",
+        "email": "vadimko_user2mailforspam.com"
+    },
+    "data": null,
+    "event": "Request"
+}
+curl -X POST -H 'Accept: */*' -H 'Accept-Encoding: gzip, deflate' -H 'Connection: keep-alive' -H 'Content-Length: 90' -H 'Content-Type: application/json' -H 'User-Agent: python-requests/2.32.3' -d '{"login": "vadimko_user2", "password": "kukusik", "email": "vadimko_user2mailforspam.com"}' http://5.63.153.31:5051/v1/account
+{
+    "service": "api",
+    "event_id": "aa72e025-cbe2-4dd9-890a-b572a9ca1067",
+    "status_code": 400,
+    "headers": "{'Content-Type': 'application/json; charset=utf-8', 'Date': 'Sun, 30 Jun 2024 18:23:54 GMT', 'Server': 'Kestrel', 'Transfer-Encoding': 'chunked'}",
+    "json": {
+        "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+        "title": "Validation failed",
+        "status": 400,
+        "traceId": "00-537cd4f181cdec83697df308ce105312-1df76b4b8155a588-01",
+        "errors": {
+            "Email": [
+                "Invalid"
+            ],
+            "Login": [
+                "Taken"
+            ]
+        }
+    },
+    "event": "Response"
+}
