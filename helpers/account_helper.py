@@ -8,6 +8,7 @@ from dm_api_account.models.reset_password import ResetPassword
 from services.dm_api_account import DMApiAccount
 from services.api_mailhog import MailHogApi
 from retrying import retry
+import allure
 
 
 def retry_if_result_none(result):
@@ -22,7 +23,7 @@ class AccountHelper:
         self.dm_account_api = dm_account_api
         self.mailhog_api = mailhog_api
 
-
+    @allure.step("Регистрация")
     def register_new_user(self, login: str, password: str, email: str):
         """
         Registration new user
@@ -49,7 +50,7 @@ class AccountHelper:
         response = self.dm_account_api.account_api.put_v1_account_token(user_token=token)
         return response
 
-
+    @allure.step("Авторизация")
     def user_login(self, login: str, password: str, remember_me: bool = True, validate_response=False, validate_headers=False):
         """
         Login user
@@ -61,14 +62,13 @@ class AccountHelper:
             remember_me=remember_me
             )
             
-        
         # Авторизация пользователя
         response = self.dm_account_api.login_api.post_v1_account_login(login_credentials=login_credentials, validate_response=validate_response)
         if validate_headers:
             assert response.headers["X-Dm-Auth-Token"], f"Токен для пользователя {login} не найден"
         return response
       
-      
+    @allure.step("Логаут пользователя с текущего устройства")
     def user_logout(self, token: str):
         """
         Logout user from single device
@@ -84,6 +84,7 @@ class AccountHelper:
         return response
 
 
+    @allure.step("Логаут пользователя со всех устройств")
     def user_logout_all(self, token: str):
         """
         Logout user from all devices
@@ -98,6 +99,7 @@ class AccountHelper:
         return response
 
 
+    @allure.step("Изменение E-mail")
     def change_email(self, login: str, password: str, email: str):
         """
         Change email
@@ -125,6 +127,7 @@ class AccountHelper:
         return response
     
     
+    @allure.step("Изменение пароля")
     def change_password(self, login: str, password: str, new_password: str, email: str):
         """
         Reset and change registered user password
@@ -154,6 +157,7 @@ class AccountHelper:
         return response
         
     
+    @allure.step("Аутентификация пользователя")
     def auth_client(self, login: str, password: str):
         """
         Authorized client
@@ -169,9 +173,11 @@ class AccountHelper:
         self.dm_account_api.login_api.set_headers(token)
         return response
 
+
     # Функция Получение токена для подтверждения нового email
     @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_token_for_activate_new_email(self, email):
+        # with allure.step(f"Получение токена для подтверждения !нового! email: {email}"):
         response = self.mailhog_api.mailhog_api.get_api_v2_messages()
         user_data = response.json()["items"]
         for item in user_data:
@@ -185,6 +191,7 @@ class AccountHelper:
     # Функция Получение токена для подтверждения email
     @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_activation_token_by_login(self, login: str):
+        # with allure.step(f"Получение токена для подтверждения email пользователя: {login}"):
         response = self.mailhog_api.mailhog_api.get_api_v2_messages()
         for item in response.json()["items"]:
             user_data = loads(item["Content"]["Body"])
@@ -198,6 +205,7 @@ class AccountHelper:
     # Функция Получение авторизационного токена
     @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_authorization_token(self, login: str, password: str):
+        # with allure.step(f"Получение авторизационного токена пользователя: {login}"):
         response = self.user_login(login=login, password=password)
         token = response.headers["X-Dm-Auth-Token"]
         return token
@@ -206,6 +214,7 @@ class AccountHelper:
     # Функция Получение токена для сброса пароля
     @retry(stop_max_attempt_number=5, retry_on_result=retry_if_result_none, wait_fixed=1000)
     def get_token_for_reset_password(self, login: str):
+        # with allure.step(f"Получение токена для сброса пароля: {login}"):
         response = self.mailhog_api.mailhog_api.get_api_v2_messages()
         for item in response.json()["items"]:
             user_data = loads(item["Content"]["Body"])

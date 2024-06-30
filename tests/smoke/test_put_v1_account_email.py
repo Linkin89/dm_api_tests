@@ -1,9 +1,13 @@
 from helpers.account_helper import AccountHelper
+import allure
 
+
+@allure.suite("Тесты проверки метода PUT v1/account/email")
+@allure.sub_suite("Изменение email на валидный email")
 def test_put_v1_account_email(account_helper: AccountHelper, prepare_user):
     """
     Регистрация нового пользователя, активация и авторизация.
-    Изменение email, активация нового email и авторизация с изменённым email
+    Изменение email, активация нового email и авторизация с изменённым email.
     """
     
     login=prepare_user.login

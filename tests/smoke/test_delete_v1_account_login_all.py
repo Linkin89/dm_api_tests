@@ -1,6 +1,12 @@
 from helpers.account_helper import AccountHelper
+import allure
 
-def test_delete_v1_account_login(auth_account_helper: AccountHelper, prepare_user):
+
+@allure.suite("Тесты проверки метода DELETE v1/account/login/all")
+def test_delete_v1_account_login_all(auth_account_helper: AccountHelper, prepare_user):
+    """
+    Логаут пользователя со всех устройств
+    """
     login = prepare_user.login
     password = prepare_user.password
     

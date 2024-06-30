@@ -1,7 +1,14 @@
 from helpers.account_helper import AccountHelper
+import allure
 
 
+@allure.suite("Тесты проверки метода PUT v1/account/password")
+@allure.sub_suite("Изменение пароля на валидный пароль")
 def test_put_v1_account_password(account_helper: AccountHelper, prepare_user):
+    """
+    Регистрация нового пользователя, активация и авторизация.
+    Изменение пароля и авторизация с изменённым паролем.
+    """
     login = prepare_user.login
     password = prepare_user.password
     email = prepare_user.email
