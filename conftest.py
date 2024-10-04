@@ -27,7 +27,7 @@ def mailhog_api():
   
 @fixture(scope="session")
 def account_api():
-  dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=True)
+  dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=False)
   account = DMApiAccount(configuration=dm_api_configuration)
   return account  
 
@@ -44,7 +44,7 @@ def auth_account_helper(mailhog_api, prepare_user):
   password = prepare_user.password
   email = prepare_user.email
   
-  dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=True)
+  dm_api_configuration = DmApiConfiguration(host="http://5.63.153.31:5051", disable_log=False)
   account = DMApiAccount(configuration=dm_api_configuration)
   account_helper = AccountHelper(dm_account_api=account, mailhog_api=mailhog_api)
   
@@ -56,7 +56,7 @@ def auth_account_helper(mailhog_api, prepare_user):
 @fixture(scope="function")
 def prepare_user():
   fake = Person()
-  login = f"{fake.username()}"
+  login = f"vadimko_{fake.username()}"
   email = f"{login}@mailforspam.com"
   password = "kukusik"
   new_password = f"new_{password}"
