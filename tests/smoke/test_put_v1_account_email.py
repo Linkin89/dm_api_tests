@@ -34,8 +34,8 @@ def test_put_v1_account_email():
     password = "kukusik"
 
     # Регистрация пользователя
-    account_helper.register_mew_user(login=login, password=password, email=email)
-
+    account_helper.register_new_user(login=login, password=password, email=email)
+    
     # Изменение email
     account_helper.change_email(login=login, password=password, email=email)
 
