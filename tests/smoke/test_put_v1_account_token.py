@@ -1,6 +1,8 @@
 from helpers.account_helper import AccountHelper
+import allure
 
-
+@allure.suite("Тесты проверки метода PUT v1/account/token")
+@allure.sub_suite("Активация пользователя")
 def test_put_v1_account_token(account_helper: AccountHelper, prepare_user):
     """
     Проверка активации пользователя

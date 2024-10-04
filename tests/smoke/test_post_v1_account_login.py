@@ -1,5 +1,8 @@
 from helpers.account_helper import AccountHelper
+import allure
 
+
+@allure.suite("Тесты проверки метода POST v1/account/login")
 def test_post_v1_account_login(account_helper: AccountHelper, prepare_user):
     """
     Проверка авторизации пользователя
