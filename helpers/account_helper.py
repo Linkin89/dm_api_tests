@@ -50,7 +50,7 @@ class AccountHelper:
         return response
 
 
-    def user_login(self, login: str, password: str, remember_me: bool = True, validate_response=False):
+    def user_login(self, login: str, password: str, remember_me: bool = True, validate_response=False, validate_headers=False):
         """
         Login user
         """
@@ -64,6 +64,8 @@ class AccountHelper:
         
         # Авторизация пользователя
         response = self.dm_account_api.login_api.post_v1_account_login(login_credentials=login_credentials, validate_response=validate_response)
+        if validate_headers:
+            assert response.headers["X-Dm-Auth-Token"], f"Токен для пользователя {login} не найден"
         return response
       
       
