@@ -1,4 +1,3 @@
-from posixpath import basename
 from checkers.http_checkers import check_status_code_http
 import pytest
 from checkers.post_v1_account import PostV1Account
