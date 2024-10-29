@@ -68,4 +68,4 @@ class RestClient:
         try:
             return rest_response.json()
         except JSONDecodeError:
-            return {}
+            return rest_response.text
